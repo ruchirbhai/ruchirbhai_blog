@@ -19,3 +19,5 @@ db = SQLAlchemy(app)
 
 # Import routes here to avoid circular imports
 from flaskblog import routes
+
+# GCP Server IP address 34.72.253.135
