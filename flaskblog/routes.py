@@ -1,8 +1,9 @@
 # ----------------------------------------------------------------------------#
 # Imports
 # ----------------------------------------------------------------------------#
-from flask import render_template, url_for
+from flask import render_template, url_for, flash, redirect
 from flaskblog.models import User, Post
+from flaskblog.forms import PostForm
 from flaskblog import app
 # Hardcoded posts data
 posts = [
@@ -28,7 +29,8 @@ posts = [
 #  App route for home page
 # ----------------------------------------------------------------------------#
 @app.route("/")
-def hello():
+@app.route("/home")
+def home():
     return render_template('home.html',posts=posts)
 
 
@@ -38,6 +40,17 @@ def hello():
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+# ----------------------------------------------------------------------------#
+#  App route for creating a new post
+# ----------------------------------------------------------------------------#
+@app.route("/post/new", methods=['GET','POST'])
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', form=form)
 
 
 # ----------------------------------------------------------------------------#
